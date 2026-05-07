@@ -30,7 +30,7 @@ public class BaseTest {
     @BeforeAll
     public static void iniciarNavegador() {
         String dataHora = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(new Date());
-        ExtentSparkReporter spark = new ExtentSparkReporter("Relatorio-Elegante_" + dataHora + ".html");
+        ExtentSparkReporter spark = new ExtentSparkReporter("target/Relatorio-Elegante_" + dataHora + ".html");
         spark.config().setDocumentTitle("Relatório de Automação");
         spark.config().setReportName("Portfólio - Flaviana Pina");
         extent = new ExtentReports();
