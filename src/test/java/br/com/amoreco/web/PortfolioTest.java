@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
-public class PrimeiroTesteWeb extends BaseTest {
+public class PortfolioTest extends BaseTest {
 
     // =================================================================================
     // CENÁRIO 1: Validar se o portfólio carrega corretamente e exibe o título esperado
