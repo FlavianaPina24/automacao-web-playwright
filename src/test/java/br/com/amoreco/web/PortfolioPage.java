@@ -19,6 +19,7 @@ public class PortfolioPage {
     private String btnGithub = "a[aria-label='GitHub']";
     private String btnLinkedin = "a[aria-label='LinkedIn']";
     private String footer = "footer";
+    private String modalDepoimento = "#feedback-modal .popup-content";
 
     // Construtor
     public PortfolioPage(Page page) {
@@ -66,6 +67,12 @@ public class PortfolioPage {
         page.locator(btnHamburger).click();
     }
 
+    public void abrirModalDepoimento() {
+        // Localizador supremo focado em QA! Imune a mudanças de CSS.
+        page.getByTestId("btn-open-feedback").click();
+        page.locator(modalDepoimento).waitFor(); // Espera a animação do pop-up terminar
+    }
+
     // Métodos Auxiliares para Screenshots (retornam a imagem em bytes para o relatório)
     public byte[] tirarPrintTelaInteira(String nomeArquivo) {
         return page.screenshot(new Page.ScreenshotOptions().setPath(java.nio.file.Paths.get(nomeArquivo)));
@@ -81,5 +88,9 @@ public class PortfolioPage {
 
     public byte[] tirarPrintRodape(String nomeArquivo) {
         return page.locator(footer).screenshot(new Locator.ScreenshotOptions().setPath(java.nio.file.Paths.get(nomeArquivo)));
+    }
+
+    public byte[] tirarPrintModalDepoimento(String nomeArquivo) {
+        return page.locator(modalDepoimento).screenshot(new Locator.ScreenshotOptions().setPath(java.nio.file.Paths.get(nomeArquivo)));
     }
 }

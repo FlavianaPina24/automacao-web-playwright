@@ -102,4 +102,16 @@ public class PortfolioTest extends BaseTest {
 
         registrarEvidencia("Evidência - Rodapé e Redes Sociais", portfolioPage.tirarPrintRodape("print-rodape.png"));
     }
+
+    // =================================================================================
+    // CENÁRIO 7: Validar a abertura do Modal de Depoimentos
+    // =================================================================================
+    @Test
+    public void testarAberturaModalDepoimento() {
+        portfolioPage.navegar();
+        
+        portfolioPage.abrirModalDepoimento();
+        
+        registrarEvidencia("Evidência - Modal de Depoimento Aberto", portfolioPage.tirarPrintModalDepoimento("print-modal-depoimento.png"));
+    }
 }
