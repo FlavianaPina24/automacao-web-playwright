@@ -12,13 +12,11 @@ public class PortfolioTest extends BaseTest {
     // =================================================================================
     @Test
     public void meuPrimeiroTesteComPlaywright() {
-        System.out.println("Navegando para o portfólio...");
         portfolioPage.navegar();
         
         registrarEvidencia("Evidência - Tela Inicial do Portfólio", portfolioPage.tirarPrintTelaInteira("print-portfolio.png"));
         
         String tituloAtual = portfolioPage.getTitulo();
-        System.out.println("O título da página é: " + tituloAtual);
         assertEquals("Flaviana Pina | Portfolio", tituloAtual, "O título da página está incorreto!");
     }
 
@@ -27,7 +25,6 @@ public class PortfolioTest extends BaseTest {
     // =================================================================================
     @Test
     public void testarModoClaro() {
-        System.out.println("Acessando o portfólio para testar o Modo Claro...");
         portfolioPage.navegar();
         
         portfolioPage.alternarTema();
@@ -43,7 +40,6 @@ public class PortfolioTest extends BaseTest {
     // =================================================================================
     @Test
     public void testarPreenchimentoFormularioContato() {
-        System.out.println("Testando o formulário de contato...");
         portfolioPage.navegar();
 
         portfolioPage.preencherFormulario("Flaviana (Teste Automatizado)", "teste@qa.com", "Oi, Flaviana! O Playwright preencheu isso sozinho. :)");
@@ -56,7 +52,6 @@ public class PortfolioTest extends BaseTest {
     // =================================================================================
     @Test
     public void testarDownloadCurriculo() {
-        System.out.println("Testando o download do currículo...");
         portfolioPage.navegar();
 
         registrarEvidencia("Evidência - Área de Download do Currículo", portfolioPage.tirarPrintSecaoAbout("print-download.png"));
@@ -66,7 +61,6 @@ public class PortfolioTest extends BaseTest {
         assertEquals("Curriculo_Flaviana_Pina.pdf", download.suggestedFilename(), "Nome do arquivo incorreto!");
 
         download.saveAs(java.nio.file.Paths.get("Curriculo_Baixado_Teste.pdf"));
-        System.out.println("Currículo validado e baixado com sucesso!");
     }
 
     // =================================================================================
@@ -74,7 +68,6 @@ public class PortfolioTest extends BaseTest {
     // =================================================================================
     @Test
     public void testarMenuMobile() {
-        System.out.println("Testando visualização em um celular...");
         
         // Cria um contexto de navegador específico simulando a tela de um celular (ex: iPhone)
         BrowserContext mobileContext = browser.newContext(new Browser.NewContextOptions()
@@ -92,5 +85,21 @@ public class PortfolioTest extends BaseTest {
         registrarEvidencia("Evidência - Simulação Mobile (Menu Aberto)", portfolioMobile.tirarPrintTelaInteira("print-mobile-menu.png"), 390);
         
         mobileContext.close();
+    }
+
+    // =================================================================================
+    // CENÁRIO 6: Validar os links das Redes Sociais no rodapé
+    // =================================================================================
+    @Test
+    public void testarRedesSociais() {
+        portfolioPage.navegar();
+
+        String linkGithub = portfolioPage.getLinkGithub();
+        String linkLinkedin = portfolioPage.getLinkLinkedin();
+
+        assertEquals("https://github.com/FlavianaPina24", linkGithub, "Link do GitHub incorreto!");
+        assertEquals("https://www.linkedin.com/in/flaviana-pina-3848a39a", linkLinkedin, "Link do LinkedIn incorreto!");
+
+        registrarEvidencia("Evidência - Rodapé e Redes Sociais", portfolioPage.tirarPrintRodape("print-rodape.png"));
     }
 }

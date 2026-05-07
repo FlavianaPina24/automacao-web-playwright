@@ -16,6 +16,9 @@ public class PortfolioPage {
     private String sectionAbout = "#about";
     private String btnDownload = "text=Baixar Currículo";
     private String btnHamburger = "#hamburger-btn";
+    private String btnGithub = "a[aria-label='GitHub']";
+    private String btnLinkedin = "a[aria-label='LinkedIn']";
+    private String footer = "footer";
 
     // Construtor
     public PortfolioPage(Page page) {
@@ -51,6 +54,14 @@ public class PortfolioPage {
         });
     }
 
+    public String getLinkGithub() {
+        return page.locator(btnGithub).getAttribute("href");
+    }
+
+    public String getLinkLinkedin() {
+        return page.locator(btnLinkedin).getAttribute("href");
+    }
+
     public void abrirMenuMobile() {
         page.locator(btnHamburger).click();
     }
@@ -66,5 +77,9 @@ public class PortfolioPage {
 
     public byte[] tirarPrintSecaoAbout(String nomeArquivo) {
         return page.locator(sectionAbout).screenshot(new Locator.ScreenshotOptions().setPath(java.nio.file.Paths.get(nomeArquivo)));
+    }
+
+    public byte[] tirarPrintRodape(String nomeArquivo) {
+        return page.locator(footer).screenshot(new Locator.ScreenshotOptions().setPath(java.nio.file.Paths.get(nomeArquivo)));
     }
 }
