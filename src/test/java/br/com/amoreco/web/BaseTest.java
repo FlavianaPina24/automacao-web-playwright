@@ -13,6 +13,7 @@ import org.junit.jupiter.api.TestInfo;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class BaseTest {
 
@@ -29,6 +30,9 @@ public class BaseTest {
 
     @BeforeAll
     public static void iniciarNavegador() {
+        // Força a máquina a usar o fuso horário de Brasília (mesmo rodando nos EUA)
+        TimeZone.setDefault(TimeZone.getTimeZone("America/Sao_Paulo"));
+
         String dataHora = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(new Date());
         ExtentSparkReporter spark = new ExtentSparkReporter("target/Relatorio-Elegante_" + dataHora + ".html");
         spark.config().setDocumentTitle("Relatório de Automação");
