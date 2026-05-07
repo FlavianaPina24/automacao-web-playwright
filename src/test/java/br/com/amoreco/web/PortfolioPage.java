@@ -1,0 +1,70 @@
+package br.com.amoreco.web;
+
+import com.microsoft.playwright.Download;
+import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.Page;
+
+public class PortfolioPage {
+    private Page page;
+
+    // Mapeamento dos Elementos (Locators)
+    private String btnThemeToggle = "#theme-toggle";
+    private String inputName = "#contact input[name='name']";
+    private String inputEmail = "#contact input[name='email']";
+    private String inputMessage = "#contact textarea[name='message']";
+    private String formContact = "#contact .contact-form";
+    private String sectionAbout = "#about";
+    private String btnDownload = "text=Baixar Currículo";
+    private String btnHamburger = "#hamburger-btn";
+
+    // Construtor
+    public PortfolioPage(Page page) {
+        this.page = page;
+    }
+
+    // Ações na Página
+    public void navegar() {
+        page.navigate("https://flavianapina24.github.io/meu-portfolio/");
+    }
+
+    public String getTitulo() {
+        return page.title();
+    }
+
+    public void alternarTema() {
+        page.locator(btnThemeToggle).click();
+    }
+
+    public String getClasseDoBody() {
+        return page.locator("body").getAttribute("class");
+    }
+
+    public void preencherFormulario(String nome, String email, String mensagem) {
+        page.locator(inputName).fill(nome);
+        page.locator(inputEmail).fill(email);
+        page.locator(inputMessage).fill(mensagem);
+    }
+
+    public Download baixarCurriculo() {
+        return page.waitForDownload(() -> {
+            page.locator(btnDownload).click();
+        });
+    }
+
+    public void abrirMenuMobile() {
+        page.locator(btnHamburger).click();
+    }
+
+    // Métodos Auxiliares para Screenshots (retornam a imagem em bytes para o relatório)
+    public byte[] tirarPrintTelaInteira(String nomeArquivo) {
+        return page.screenshot(new Page.ScreenshotOptions().setPath(java.nio.file.Paths.get(nomeArquivo)));
+    }
+
+    public byte[] tirarPrintFormulario(String nomeArquivo) {
+        return page.locator(formContact).screenshot(new Locator.ScreenshotOptions().setPath(java.nio.file.Paths.get(nomeArquivo)));
+    }
+
+    public byte[] tirarPrintSecaoAbout(String nomeArquivo) {
+        return page.locator(sectionAbout).screenshot(new Locator.ScreenshotOptions().setPath(java.nio.file.Paths.get(nomeArquivo)));
+    }
+}
