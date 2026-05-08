@@ -114,4 +114,21 @@ public class PortfolioTest extends BaseTest {
         
         registrarEvidencia("Evidência - Modal de Depoimento Aberto", portfolioPage.tirarPrintModalDepoimento("print-modal-depoimento.png"));
     }
+
+    // =================================================================================
+    // CENÁRIO 8: Validar preenchimento e cancelamento do Modal de Depoimentos
+    // =================================================================================
+    @Test
+    public void testarPreenchimentoECancelamentoModal() {
+        portfolioPage.navegar();
+        portfolioPage.abrirModalDepoimento();
+        
+        portfolioPage.preencherModalDepoimento("Flaviana QA", "Engenheira de Qualidade", "Testando o preenchimento automático do Playwright com sucesso!");
+        
+        registrarEvidencia("Evidência - Modal de Depoimento Preenchido", portfolioPage.tirarPrintModalDepoimento("print-modal-preenchido.png"));
+        
+        portfolioPage.cancelarDepoimento();
+        
+        assertTrue(portfolioPage.modalEstaOculto(), "Erro Crítico: O modal ainda está visível na tela após clicar em Cancelar!");
+    }
 }

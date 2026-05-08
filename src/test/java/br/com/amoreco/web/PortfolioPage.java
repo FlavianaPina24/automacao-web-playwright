@@ -20,6 +20,10 @@ public class PortfolioPage {
     private String btnLinkedin = "a[aria-label='LinkedIn']";
     private String footer = "footer";
     private String modalDepoimento = "#feedback-modal .popup-content";
+    private String inputDepoimentoNome = "#leave-feedback-form input[name='name']";
+    private String inputDepoimentoCargo = "#leave-feedback-form input[name='role']";
+    private String inputDepoimentoMensagem = "#leave-feedback-form textarea[name='message']";
+    private String btnCancelarDepoimento = "text=Cancelar";
 
     // Construtor
     public PortfolioPage(Page page) {
@@ -71,6 +75,22 @@ public class PortfolioPage {
         // Localizador supremo focado em QA! Imune a mudanças de CSS.
         page.getByTestId("btn-open-feedback").click();
         page.locator(modalDepoimento).waitFor(); // Espera a animação do pop-up terminar
+    }
+
+    public void preencherModalDepoimento(String nome, String cargo, String mensagem) {
+        page.locator(inputDepoimentoNome).fill(nome);
+        page.locator(inputDepoimentoCargo).fill(cargo);
+        page.locator(inputDepoimentoMensagem).fill(mensagem);
+    }
+
+    public void cancelarDepoimento() {
+        page.locator(btnCancelarDepoimento).click();
+    }
+
+    public boolean modalEstaOculto() {
+        // Espera ativamente a animação do modal sumir da tela antes de verificar
+        page.locator(modalDepoimento).waitFor(new Locator.WaitForOptions().setState(com.microsoft.playwright.options.WaitForSelectorState.HIDDEN));
+        return page.locator(modalDepoimento).isHidden();
     }
 
     // Métodos Auxiliares para Screenshots (retornam a imagem em bytes para o relatório)

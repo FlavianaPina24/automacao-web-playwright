@@ -13,6 +13,8 @@ import org.junit.jupiter.api.TestInfo;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class BaseTest {
@@ -40,7 +42,11 @@ public class BaseTest {
         extent = new ExtentReports();
         extent.attachReporter(spark);
 
-        playwright = Playwright.create();
+        // Ignora a falta de DLLs do Windows (como a zlib1.dll) para navegadores que não usamos
+        Map<String, String> env = new HashMap<>();
+        env.put("PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS", "true");
+        
+        playwright = Playwright.create(new Playwright.CreateOptions().setEnv(env));
         browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
     }
 
@@ -54,7 +60,12 @@ public class BaseTest {
     public void novaAba(TestInfo testInfo) {
         evidenciaHtml = ""; 
         relatorioTeste = extent.createTest(testInfo.getDisplayName());
-        context = browser.newContext();
+        
+        // Instrui o Playwright a gravar um vídeo de cada teste e salvar na pasta "videos/"
+        context = browser.newContext(new Browser.NewContextOptions()
+            .setRecordVideoDir(java.nio.file.Paths.get("videos/"))
+            .setRecordVideoSize(1280, 720)); // Resolução HD para ficar bonito no site!
+            
         page = context.newPage();
         portfolioPage = new PortfolioPage(page);
     }
