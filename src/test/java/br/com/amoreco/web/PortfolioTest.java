@@ -132,4 +132,21 @@ public class PortfolioTest extends BaseTest {
         
         assertTrue(portfolioPage.modalEstaOculto(), "Erro Crítico: O modal ainda está visível na tela após clicar em Cancelar!");
     }
+
+    // =================================================================================
+    // CENÁRIO 9: Validar publicação de Depoimento e Mensagem de Sucesso
+    // =================================================================================
+    @Test
+    public void testarPublicacaoDepoimentoComSucesso() {
+        portfolioPage.navegar();
+        portfolioPage.abrirModalDepoimento();
+        
+        portfolioPage.preencherModalDepoimento("Flaviana QA", "Engenheira Sênior", "Este é um teste validando a mensagem de sucesso com Playwright!");
+        portfolioPage.publicarDepoimento();
+        
+        assertTrue(portfolioPage.mensagemSucessoEstaVisivel(), "O pop-up de sucesso não apareceu na tela!");
+        assertEquals("Mensagem Enviada!", portfolioPage.getTextoMensagemSucesso(), "O texto de sucesso está incorreto!");
+        
+        registrarEvidencia("Evidência - Depoimento Publicado com Sucesso", portfolioPage.tirarPrintSucesso("print-sucesso.png"));
+    }
 }

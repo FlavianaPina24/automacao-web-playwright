@@ -24,6 +24,8 @@ public class PortfolioPage {
     private String inputDepoimentoCargo = "#leave-feedback-form input[name='role']";
     private String inputDepoimentoMensagem = "#leave-feedback-form textarea[name='message']";
     private String btnCancelarDepoimento = "text=Cancelar";
+    private String btnPublicarDepoimento = "text=Publicar Depoimento";
+    private String popupSucesso = "#success-popup";
 
     // Construtor
     public PortfolioPage(Page page) {
@@ -95,6 +97,20 @@ public class PortfolioPage {
         page.locator(btnCancelarDepoimento).click();
     }
 
+    public void publicarDepoimento() {
+        page.locator(btnPublicarDepoimento).click();
+    }
+
+    public boolean mensagemSucessoEstaVisivel() {
+        // Espera ativamente a animação do pop-up de sucesso aparecer na tela
+        page.locator(popupSucesso).waitFor(new Locator.WaitForOptions().setState(com.microsoft.playwright.options.WaitForSelectorState.VISIBLE));
+        return page.locator(popupSucesso).isVisible();
+    }
+
+    public String getTextoMensagemSucesso() {
+        return page.locator(popupSucesso + " h3").innerText();
+    }
+
     public boolean modalEstaOculto() {
         // Espera ativamente a animação do modal sumir da tela antes de verificar
         page.locator(modalDepoimento).waitFor(new Locator.WaitForOptions().setState(com.microsoft.playwright.options.WaitForSelectorState.HIDDEN));
@@ -120,5 +136,9 @@ public class PortfolioPage {
 
     public byte[] tirarPrintModalDepoimento(String nomeArquivo) {
         return page.locator(modalDepoimento).screenshot(new Locator.ScreenshotOptions().setPath(java.nio.file.Paths.get(nomeArquivo)));
+    }
+
+    public byte[] tirarPrintSucesso(String nomeArquivo) {
+        return page.locator(popupSucesso + " .popup-content").screenshot(new Locator.ScreenshotOptions().setPath(java.nio.file.Paths.get(nomeArquivo)));
     }
 }
