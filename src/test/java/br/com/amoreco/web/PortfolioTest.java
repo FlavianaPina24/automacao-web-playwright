@@ -1,7 +1,6 @@
 package br.com.amoreco.web;
 
 import com.microsoft.playwright.*;
-import com.microsoft.playwright.options.ColorScheme;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
@@ -77,10 +76,10 @@ public class PortfolioTest extends BaseTest {
             .setViewportSize(390, 844)
             .setIsMobile(true)
             .setRecordVideoDir(java.nio.file.Paths.get("videos/"))
-            .setRecordVideoSize(390, 844)
-            .setColorScheme(ColorScheme.DARK)); // Elimina o flash no modo mobile
+            .setRecordVideoSize(390, 844));
             
         page = context.newPage();
+        
         portfolioPage = new PortfolioPage(page);
 
         portfolioPage.navegar();

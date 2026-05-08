@@ -1,7 +1,6 @@
 package br.com.amoreco.web;
 
 import com.microsoft.playwright.*;
-import com.microsoft.playwright.options.ColorScheme;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
@@ -67,10 +66,10 @@ public class BaseTest {
         // Instrui o Playwright a gravar um vídeo de cada teste e salvar na pasta "videos/"
         context = browser.newContext(new Browser.NewContextOptions()
             .setRecordVideoDir(java.nio.file.Paths.get("videos/"))
-            .setRecordVideoSize(1280, 720)
-            .setColorScheme(ColorScheme.DARK)); // Elimina o flash forçando o navegador a nascer no modo escuro
+            .setRecordVideoSize(1280, 720));
             
         page = context.newPage();
+        
         portfolioPage = new PortfolioPage(page);
     }
 
@@ -91,6 +90,7 @@ public class BaseTest {
         if (!evidenciaHtml.isEmpty()) {
             relatorioTeste.info(evidenciaHtml); 
         }
+        
         context.close(); // O Playwright finaliza e salva o vídeo neste exato momento!
 
         // Renomear o vídeo de nome aleatório para um formato profissional: Cenário + Data + Hora
