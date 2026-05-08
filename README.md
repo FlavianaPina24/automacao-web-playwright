@@ -26,6 +26,8 @@ A suíte de testes atual é capaz de cobrir as principais funcionalidades do por
 4. **Download de Arquivos:** Interceptação assíncrona e validação de download de PDF (Currículo).
 5. **Responsividade Mobile:** Simulação de contexto de navegador móvel (dimensões de iPhone) e testes do menu *Hamburger*.
 6. **Validação de Links:** Verificação de atributos do DOM (redes sociais no rodapé).
+7. **Abertura de Modais:** Mapeamento avançado imune a mudanças de CSS usando `data-testid`.
+8. **Fluxo E2E de Depoimentos:** Preenchimento de formulário em Pop-up, cancelamento e asserção avançada de invisibilidade de elementos no DOM.
 
 ## 📁 Estrutura do Projeto
 

@@ -11,11 +11,11 @@
 - 7 Cenários de teste completos cobrindo CSS, Downloads, Mobile e Modais!
 - **Bônus:** Atualização do portfólio destacando a visão BA & QA, com gravação de vídeo (`.webm`) nativa do Playwright executando a automação!
 
-## 🎯 Próximos Passos (Para Amanhã)
-- [ ] **Cenário 8:** Testar o novo Pop-up de Depoimentos (preencher Nome, Cargo, Mensagem e validar o clique de fechamento/envio).
-- [ ] Continuar refinando a testabilidade do `index.html`.
-- [ ] Explorar asserções avançadas do Playwright (ex: garantir que o pop-up realmente sumiu da tela ao cancelar).
-- [ ] Configurar o arquivo `.gitignore` para ignorar a nova pasta `videos/` e não pesar o seu GitHub.
+## 🎯 Conquistas de Hoje!
+- [x] Configuração do `.gitignore` para manter o repositório leve (ignorando vídeos em `.webm`).
+- [x] **Cenário 8:** Teste do novo Pop-up de Depoimentos interagindo com os campos.
+- [x] Bug do "Modal Fantasma" detectado em ambiente de Produção e corrigido via CSS (`visibility: hidden`).
+- [x] Exploração de asserções avançadas do Playwright (`isHidden` com `waitFor`).
 
 ---
-*Anotação:* Paramos logo após gravar o vídeo da automação e incluir no site. O ambiente local do VS Code foi limpo e está pronto para amanhã. 🚀
+*Anotação:* Suíte de testes atualizada para 8 cenários rodando perfeitamente e documentação em dia! 🚀
