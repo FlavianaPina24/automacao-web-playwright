@@ -58,6 +58,10 @@ public class PortfolioPage {
     }
 
     public Download baixarCurriculo() {
+        // Centraliza a seção Sobre Mim perfeitamente na tela para a gravação do vídeo
+        page.locator(sectionAbout).evaluate("el => el.scrollIntoView({ behavior: 'smooth', block: 'center' })");
+        page.waitForTimeout(1000); // Aguarda a câmera focar antes de clicar
+
         return page.waitForDownload(() -> {
             page.locator(btnDownload).click();
         });
