@@ -47,7 +47,9 @@ public class BaseTest {
         env.put("PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS", "true");
         
         playwright = Playwright.create(new Playwright.CreateOptions().setEnv(env));
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
+        browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
+            .setHeadless(true)
+            .setSlowMo(800)); // Adiciona 800ms de pausa entre cada ação para o vídeo ficar perfeito!
     }
 
     @AfterAll
@@ -82,11 +84,20 @@ public class BaseTest {
     }
 
     @AfterEach
-    public void fecharAba() {
+    public void fecharAba(TestInfo testInfo) {
         relatorioTeste.pass("Cenário executado com sucesso!");
         if (!evidenciaHtml.isEmpty()) {
             relatorioTeste.info(evidenciaHtml); 
         }
-        context.close();
+        context.close(); // O Playwright finaliza e salva o vídeo neste exato momento!
+
+        // Renomear o vídeo de nome aleatório para um formato profissional: Cenário + Data + Hora
+        if (page.video() != null) {
+            String nomeCenario = testInfo.getDisplayName().replace("()", "").replaceAll("[^a-zA-Z0-9]", "_");
+            String dataHora = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(new Date());
+            
+            page.video().saveAs(java.nio.file.Paths.get("videos/" + nomeCenario + "_" + dataHora + ".webm"));
+            page.video().delete(); // Apaga o vídeo original com nome aleatório
+        }
     }
 }

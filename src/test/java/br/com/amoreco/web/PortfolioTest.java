@@ -68,23 +68,23 @@ public class PortfolioTest extends BaseTest {
     // =================================================================================
     @Test
     public void testarMenuMobile() {
-        
-        // Cria um contexto de navegador específico simulando a tela de um celular (ex: iPhone)
-        BrowserContext mobileContext = browser.newContext(new Browser.NewContextOptions()
+        // Fecha o contexto padrão (Desktop) que foi aberto automaticamente antes do teste
+        context.close();
+
+        // Recria o contexto oficial do robô simulando um celular e com a câmera ligada!
+        context = browser.newContext(new Browser.NewContextOptions()
             .setViewportSize(390, 844)
-            .setIsMobile(true));
+            .setIsMobile(true)
+            .setRecordVideoDir(java.nio.file.Paths.get("videos/"))
+            .setRecordVideoSize(390, 844));
             
-        Page mobilePage = mobileContext.newPage();
-        PortfolioPage portfolioMobile = new PortfolioPage(mobilePage); // Usa a mesma classe para o mobile!
-        portfolioMobile.navegar();
+        page = context.newPage();
+        portfolioPage = new PortfolioPage(page);
+
+        portfolioPage.navegar();
+        portfolioPage.abrirMenuMobile();
         
-        // Clica no botão hamburger que só fica visível em telas pequenas
-        portfolioMobile.abrirMenuMobile();
-        
-        // Tira um print do formato mobile com o menu aberto!
-        registrarEvidencia("Evidência - Simulação Mobile (Menu Aberto)", portfolioMobile.tirarPrintTelaInteira("print-mobile-menu.png"), 390);
-        
-        mobileContext.close();
+        registrarEvidencia("Evidência - Simulação Mobile (Menu Aberto)", portfolioPage.tirarPrintTelaInteira("print-mobile-menu.png"), 390);
     }
 
     // =================================================================================

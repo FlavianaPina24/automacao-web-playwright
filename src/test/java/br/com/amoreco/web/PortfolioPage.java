@@ -48,6 +48,10 @@ public class PortfolioPage {
     }
 
     public void preencherFormulario(String nome, String email, String mensagem) {
+        // Centraliza o formulário perfeitamente na tela para a gravação do vídeo
+        page.locator(formContact).evaluate("el => el.scrollIntoView({ behavior: 'smooth', block: 'center' })");
+        page.waitForTimeout(1000); // Aguarda 1 segundo para a câmera focar antes de digitar
+
         page.locator(inputName).fill(nome);
         page.locator(inputEmail).fill(email);
         page.locator(inputMessage).fill(mensagem);
