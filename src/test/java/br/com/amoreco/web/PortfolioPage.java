@@ -8,6 +8,8 @@ public class PortfolioPage {
     private Page page;
 
     // Mapeamento dos Elementos (Locators)
+    private String preloader = "#preloader";
+    private String btnStartPreloader = "#btn-start-preloader";
     private String btnThemeToggle = "#theme-toggle";
     private String inputName = "#contact input[name='name']";
     private String inputEmail = "#contact input[name='email']";
@@ -35,6 +37,10 @@ public class PortfolioPage {
     // Ações na Página
     public void navegar() {
         page.navigate("https://flavianapina24.github.io/meu-portfolio/");
+        
+        // Interage com o Preloader para liberar a tela antes de continuar
+        page.locator(btnStartPreloader).click();
+        page.locator(preloader).waitFor(new Locator.WaitForOptions().setState(com.microsoft.playwright.options.WaitForSelectorState.HIDDEN));
     }
 
     public String getTitulo() {
