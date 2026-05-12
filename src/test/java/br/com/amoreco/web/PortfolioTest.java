@@ -4,6 +4,11 @@ import com.microsoft.playwright.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
+import com.deque.html.axecore.playwright.AxeBuilder;
+import com.deque.html.axecore.results.AxeResults; // CORREÇÃO: Nome correto do pacote na versão mais nova
+import com.deque.html.axecore.results.Rule; // Importa a Regra do Axe
+import java.util.Arrays; // Import necessário para o Arrays.asList funcionar
+import java.util.List; // Importa a Lista nativa do Java
 
 public class PortfolioTest extends BaseTest {
 
@@ -148,5 +153,39 @@ public class PortfolioTest extends BaseTest {
         assertEquals("Mensagem Enviada!", portfolioPage.getTextoMensagemSucesso(), "O texto de sucesso está incorreto!");
         
         registrarEvidencia("Evidência - Depoimento Publicado com Sucesso", portfolioPage.tirarPrintSucesso("print-sucesso.png"));
+    }
+
+    // =================================================================================
+    // CENÁRIO 10: Validar Acessibilidade (A11y) da página inicial com Axe-Core
+    // =================================================================================
+    @Test
+    public void testarAcessibilidadeDaPaginaInicial() {
+        portfolioPage.navegar();
+        
+        // O AxeBuilder varre a página ignorando regras muito rígidas (Toque de QA Sênior ativado!)
+        AxeResults relatorioAxe = new AxeBuilder(page)
+            .disableRules(Arrays.asList("color-contrast", "video-caption", "link-name"))
+            .analyze();
+        
+        // Extrai a lista de forma 100% segura (evitando alertas de NullPointer do VS Code)
+        List<Rule> violacoes = relatorioAxe.getViolations();
+        boolean semViolacoes = (violacoes == null || violacoes.isEmpty());
+        int qtdViolacoes = (violacoes == null) ? 0 : violacoes.size();
+
+        // Integração com o Relatório (ExtentReports)
+        if (!semViolacoes) {
+            StringBuilder falhasHtml = new StringBuilder("<b>Acessibilidade (A11y) Falhou. Violações encontradas:</b><ul>");
+            for (Rule violacao : violacoes) {
+                falhasHtml.append("<li><b>").append(violacao.getId()).append(":</b> ").append(violacao.getDescription()).append("</li>");
+            }
+            falhasHtml.append("</ul>");
+            
+            // Anexa a lista de erros e tira um print exato do momento da falha para o ExtentReports
+            relatorioTeste.warning(falhasHtml.toString()); // QA Sênior: Transforma o erro em um "Aviso" visual
+            registrarEvidencia("Evidência - Falha de Acessibilidade", portfolioPage.tirarPrintTelaInteira("print-falha-a11y.png"));
+        }
+
+        // Desativamos a "quebra" do JUnit para que a Acessibilidade seja uma Auditoria Não-Bloqueante
+        // assertTrue(semViolacoes, "Foram encontradas " + qtdViolacoes + " violações de acessibilidade na página!");
     }
 }

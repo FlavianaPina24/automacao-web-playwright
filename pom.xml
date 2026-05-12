@@ -32,6 +32,12 @@
             <artifactId>extentreports</artifactId>
             <version>5.1.2</version>
         </dependency>
+        <!-- Dependência do Axe para Playwright Java (Acessibilidade) -->
+        <dependency>
+            <groupId>com.deque.html.axe-core</groupId>
+            <artifactId>playwright</artifactId>
+            <version>4.10.0</version>
+        </dependency>
     </dependencies>
 
 </project>
