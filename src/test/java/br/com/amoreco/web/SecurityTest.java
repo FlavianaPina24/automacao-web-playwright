@@ -1,0 +1,67 @@
+package br.com.amoreco.web;
+
+import com.microsoft.playwright.*;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import java.util.Map;
+
+public class SecurityTest extends BaseTest {
+
+    // =================================================================================
+    // CENÁRIO 11: DevSecOps - Tentativa de Injeção XSS (Cross-Site Scripting)
+    // =================================================================================
+    @Test
+    public void testarInjecaoXSSNoFormulario() {
+        // 1. "Armadilha" do Playwright: Se a página abrir um pop-up de alerta (vírus), o XSS funcionou e o teste falha!
+        page.onDialog(dialog -> {
+            relatorioTeste.fail("🚨 VULNERABILIDADE DETECTADA: O script malicioso foi executado no navegador!");
+            dialog.accept();
+            fail("Falha Crítica de Segurança: Injeção XSS executada com sucesso!");
+        });
+
+        portfolioPage.navegar();
+        portfolioPage.abrirModalDepoimento();
+
+        // 2. Payload Hacker malicioso
+        String payloadHacker = "<script>alert('Você foi hackeado!');</script><img src='x' onerror='alert(\"XSS Fatal\")'>";
+
+        // 3. Tenta injetar o código nos campos de texto
+        portfolioPage.preencherModalDepoimento("Hacker do Bem", "DevSecOps", payloadHacker);
+        registrarEvidencia("Evidência - Tentativa de Injeção XSS", portfolioPage.tirarPrintModalDepoimento("print-tentativa-xss.png"));
+        
+        portfolioPage.publicarDepoimento();
+
+        // 4. Se chegou aqui e a mensagem de sucesso apareceu sem disparar a armadilha do onDialog, o site está blindado!
+        assertTrue(portfolioPage.mensagemSucessoEstaVisivel(), "O formulário não processou o envio corretamente.");
+        relatorioTeste.pass("🛡️ Segurança (XSS): O sistema sanitizou as entradas e bloqueou a execução de scripts maliciosos.");
+    }
+
+    // =================================================================================
+    // CENÁRIO 12: DevSecOps - Validação de Cabeçalhos de Segurança HTTP
+    // =================================================================================
+    @Test
+    public void testarCabecalhosDeSeguranca() {
+        // Acessamos o site e capturamos a resposta do servidor em tempo real
+        Response resposta = page.navigate("https://flavianapina24.github.io/meu-portfolio/");
+        
+        Map<String, String> headers = resposta.headers();
+        StringBuilder relatorioHeaders = new StringBuilder("<b>Análise de Cabeçalhos HTTP:</b><ul>");
+        
+        boolean temXFrame = headers.containsKey("x-frame-options");
+        boolean temXSSProtection = headers.containsKey("x-xss-protection");
+        
+        relatorioHeaders.append("<li><b>X-Frame-Options</b> (Proteção contra Clickjacking): ").append(temXFrame ? "✅ Ativo" : "⚠️ Ausente").append("</li>");
+        relatorioHeaders.append("<li><b>X-XSS-Protection</b> (Filtro Anti-XSS): ").append(temXSSProtection ? "✅ Ativo" : "⚠️ Ausente").append("</li>");
+        relatorioHeaders.append("</ul>");
+
+        // Servidores gratuitos como GitHub Pages costumam não ter todos os headers rígidos. 
+        // Como QA Sênior, nós geramos um "Aviso" (Warning) visual no relatório em vez de quebrar a esteira.
+        if (!temXFrame || !temXSSProtection) {
+            relatorioTeste.warning("⚠️ Observação de Segurança: Alguns cabeçalhos defensivos não estão configurados no servidor (Comum em GitHub Pages).<br>" + relatorioHeaders.toString());
+        } else {
+            relatorioTeste.pass("🛡️ Segurança: Cabeçalhos defensivos configurados corretamente.<br>" + relatorioHeaders.toString());
+        }
+        
+        assertTrue(resposta.ok(), "Falha ao obter resposta do servidor.");
+    }
+}
