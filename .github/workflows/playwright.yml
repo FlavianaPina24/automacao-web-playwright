@@ -24,6 +24,14 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
+    - name: Cache dos Navegadores Playwright
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        key: ${{ runner.os }}-playwright-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-playwright-
+
     - name: Atualizar Cache do APT
       run: sudo apt-get update
 
