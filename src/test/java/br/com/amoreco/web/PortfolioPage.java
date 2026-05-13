@@ -39,8 +39,11 @@ public class PortfolioPage {
         // Cache-Busting: Força o servidor a entregar a versão mais recente do site
         page.navigate("https://flavianapina.com.br/?nocache=" + System.currentTimeMillis());
         
-        // Interage com o Preloader para liberar a tela antes de continuar
-        page.locator(btnStartPreloader).click();
+        // Inteligência QA: O nosso site possui o "Passe VIP" que oculta o preloader para robôs (Webdriver/Lighthouse).
+        // Portanto, o robô só tenta clicar no botão de iniciar se ele realmente estiver visível!
+        if (page.locator(btnStartPreloader).isVisible()) {
+            page.locator(btnStartPreloader).click();
+        }
         page.locator(preloader).waitFor(new Locator.WaitForOptions().setState(com.microsoft.playwright.options.WaitForSelectorState.HIDDEN));
     }
 
