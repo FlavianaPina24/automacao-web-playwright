@@ -64,5 +64,5 @@ jobs:
       - name: Executar OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.14.0
         with:
-          target: 'https://flavianapina24.github.io/meu-portfolio/'
+          target: 'https://flavianapina.com.br/'
           fail_action: false # Gera o relatório de vulnerabilidades, mas não quebra a esteira com avisos comuns do GitHub Pages

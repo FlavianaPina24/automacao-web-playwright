@@ -51,7 +51,7 @@ public class SecurityTest extends BaseTest {
     public void testarCabecalhosDeSeguranca() {
         // Acessamos o site e capturamos a resposta do servidor em tempo real
         // Cache-Busting: Garante a captura dos cabeçalhos da versão mais atual
-        Response resposta = page.navigate("https://flavianapina24.github.io/meu-portfolio/?nocache=" + System.currentTimeMillis());
+        Response resposta = page.navigate("https://flavianapina.com.br/?nocache=" + System.currentTimeMillis());
         
         Map<String, String> headers = resposta.headers();
         StringBuilder relatorioHeaders = new StringBuilder("<b>Análise de Cabeçalhos HTTP:</b><ul>");

@@ -37,7 +37,7 @@ public class PortfolioPage {
     // Ações na Página
     public void navegar() {
         // Cache-Busting: Força o servidor a entregar a versão mais recente do site
-        page.navigate("https://flavianapina24.github.io/meu-portfolio/?nocache=" + System.currentTimeMillis());
+        page.navigate("https://flavianapina.com.br/?nocache=" + System.currentTimeMillis());
         
         // Interage com o Preloader para liberar a tela antes de continuar
         page.locator(btnStartPreloader).click();
