@@ -9,6 +9,10 @@ on:
     # Executa todos os dias às 03:00 UTC (Meia-noite no Horário de Brasília)
     - cron: '0 3 * * *'
 
+permissions:
+  contents: read # Necessário para o checkout do código
+  issues: write  # Permite que o ZAP crie Issues com os alertas de segurança
+
 jobs:
   test:
     runs-on: ubuntu-22.04
