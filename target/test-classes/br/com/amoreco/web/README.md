@@ -26,6 +26,12 @@ A suíte de testes atual é capaz de cobrir as principais funcionalidades do por
 4. **Download de Arquivos:** Interceptação assíncrona e validação de download de PDF (Currículo).
 5. **Responsividade Mobile:** Simulação de contexto de navegador móvel (dimensões de iPhone) e testes do menu *Hamburger*.
 6. **Validação de Links:** Verificação de atributos do DOM (redes sociais no rodapé).
+7. **Abertura de Modais:** Validação de renderização de componentes flutuantes (Pop-ups).
+8. **Interação em Modais:** Preenchimento e cancelamento seguro de formulários flutuantes.
+9. **Painel de Acessibilidade (A11y):** Teste de manipulação visual (Fonte Dislexia) através do painel.
+10. **Axe-Core A11y:** Varredura autônoma de acessibilidade para garantir conformidade com a WCAG.
+11. **DevSecOps (Injeção XSS):** Tentativa de injeção de scripts maliciosos validando a blindagem (Sanitização) do sistema.
+12. **DevSecOps (Security Headers):** Validação de cabeçalhos HTTP defensivos (Anti-Clickjacking e Anti-XSS).
 
 ## 📁 Estrutura do Projeto
 
