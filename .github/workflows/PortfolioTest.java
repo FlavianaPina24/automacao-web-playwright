@@ -93,4 +93,21 @@ public class PortfolioTest extends BaseTest {
         
         mobileContext.close();
     }
+
+    // =================================================================================
+    // CENÁRIO 9: Validar a abertura e funcionamento do Painel de Acessibilidade (A11y)
+    // =================================================================================
+    @Test
+    public void testarPainelAcessibilidade() {
+        System.out.println("Testando o Painel de Acessibilidade...");
+        portfolioPage.navegar();
+
+        portfolioPage.abrirPainelAcessibilidade();
+        assertTrue(portfolioPage.painelAcessibilidadeVisivel(), "O painel de acessibilidade não abriu!");
+
+        portfolioPage.ativarFonteDislexia();
+        assertTrue(portfolioPage.fonteDislexiaAtiva(), "A fonte de dislexia não foi ativada na página!");
+
+        registrarEvidencia("Evidência - Painel A11y e Fonte Dislexia", portfolioPage.tirarPrintTelaInteira("print-a11y.png"));
+    }
 }

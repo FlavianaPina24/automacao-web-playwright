@@ -28,6 +28,9 @@ public class PortfolioPage {
     private String btnCancelarDepoimento = "text=Cancelar";
     private String btnPublicarDepoimento = "text=Publicar Depoimento";
     private String popupSucesso = "#success-popup";
+    private String btnA11y = "#a11y-btn";
+    private String panelA11y = "#a11y-panel";
+    private String btnDyslexia = "button[aria-label='Fonte para dislexia']";
 
     // Construtor
     public PortfolioPage(Page page) {
@@ -109,6 +112,25 @@ public class PortfolioPage {
 
     public void publicarDepoimento() {
         page.locator(btnPublicarDepoimento).click();
+    }
+
+    public void abrirPainelAcessibilidade() {
+        page.locator(btnA11y).click();
+        // Espera a animação do CSS terminar e o painel ficar totalmente visível
+        page.locator(panelA11y).waitFor(new Locator.WaitForOptions().setState(com.microsoft.playwright.options.WaitForSelectorState.VISIBLE));
+    }
+
+    public boolean painelAcessibilidadeVisivel() {
+        return page.locator(panelA11y).isVisible();
+    }
+
+    public void ativarFonteDislexia() {
+        page.locator(btnDyslexia).click();
+    }
+
+    public boolean fonteDislexiaAtiva() {
+        String htmlClass = page.locator("html").getAttribute("class");
+        return htmlClass != null && htmlClass.contains("a11y-dyslexia");
     }
 
     public boolean mensagemSucessoEstaVisivel() {
