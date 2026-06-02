@@ -13,6 +13,9 @@ permissions:
   contents: read # Necessário para o checkout do código
   issues: write  # Permite que o ZAP crie Issues com os alertas de segurança
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   test:
     runs-on: ubuntu-22.04
