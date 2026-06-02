@@ -113,7 +113,10 @@ public class PortfolioPage {
 
     public boolean mensagemSucessoEstaVisivel() {
         // Espera ativamente a animação do pop-up de sucesso aparecer na tela
-        page.locator(popupSucesso).waitFor(new Locator.WaitForOptions().setState(com.microsoft.playwright.options.WaitForSelectorState.VISIBLE));
+        // Aumentamos o timeout para 60 segundos (60000ms) para perdoar o "sono" da API gratuita do Render
+        page.locator(popupSucesso).waitFor(new Locator.WaitForOptions()
+            .setState(com.microsoft.playwright.options.WaitForSelectorState.VISIBLE)
+            .setTimeout(60000));
         return page.locator(popupSucesso).isVisible();
     }
 
