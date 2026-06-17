@@ -4,6 +4,7 @@ import com.microsoft.playwright.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
 import com.deque.html.axecore.playwright.AxeBuilder;
 import com.deque.html.axecore.results.AxeResults; // CORREÇÃO: Nome correto do pacote na versão mais nova
 import com.deque.html.axecore.results.Rule; // Importa a Regra do Axe
@@ -15,6 +16,7 @@ public class PortfolioTest extends BaseTest {
     // =================================================================================
     // CENÁRIO 1: Validar se o portfólio carrega corretamente e exibe o título esperado
     // =================================================================================
+    @DisplayName("CENÁRIO 1: Validar título da página inicial")
     @Test
     public void meuPrimeiroTesteComPlaywright() {
         portfolioPage.navegar();
@@ -28,6 +30,7 @@ public class PortfolioTest extends BaseTest {
     // =================================================================================
     // CENÁRIO 2: Validar o funcionamento do botão de Modo Claro (Light Mode)
     // =================================================================================
+    @DisplayName("CENÁRIO 2: Validar a funcionalidade do Modo Claro")
     @Test
     public void testarModoClaro() {
         portfolioPage.navegar();
@@ -71,26 +74,24 @@ public class PortfolioTest extends BaseTest {
     // =================================================================================
     // CENÁRIO 5: Validar a responsividade e o menu Hamburger simulando a tela de um Celular
     // =================================================================================
+    @DisplayName("CENÁRIO 5: Validar responsividade e menu Hamburger em um dispositivo móvel")
     @Test
     public void testarMenuMobile() {
-        // Fecha o contexto padrão (Desktop) que foi aberto automaticamente antes do teste
-        context.close();
-
-        // Recria o contexto oficial do robô simulando um celular e com a câmera ligada!
-        context = browser.newContext(new Browser.NewContextOptions()
+        // Usando try-with-resources para garantir que o contexto e a página móvel sejam fechados
+        try (BrowserContext mobileContext = browser.newContext(new Browser.NewContextOptions()
             .setViewportSize(390, 844)
             .setIsMobile(true)
             .setRecordVideoDir(java.nio.file.Paths.get("videos/"))
-            .setRecordVideoSize(390, 844));
+            .setRecordVideoSize(390, 844))) {
             
-        page = context.newPage();
-        
-        portfolioPage = new PortfolioPage(page);
-
-        portfolioPage.navegar();
-        portfolioPage.abrirMenuMobile();
-        
-        registrarEvidencia("Evidência - Simulação Mobile (Menu Aberto)", portfolioPage.tirarPrintTelaInteira("print-mobile-menu.png"), 390);
+            Page mobilePage = mobileContext.newPage();
+            PortfolioPage portfolioMobilePage = new PortfolioPage(mobilePage);
+    
+            portfolioMobilePage.navegar();
+            portfolioMobilePage.abrirMenuMobile();
+            
+            registrarEvidencia("Evidência - Simulação Mobile (Menu Aberto)", portfolioMobilePage.tirarPrintTelaInteira("print-mobile-menu.png"), 390);
+        }
     }
 
     // =================================================================================

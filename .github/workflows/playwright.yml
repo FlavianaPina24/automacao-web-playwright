@@ -13,9 +13,6 @@ permissions:
   contents: read # Necessário para o checkout do código
   issues: write  # Permite que o ZAP crie Issues com os alertas de segurança
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   test:
     runs-on: ubuntu-22.04
@@ -38,9 +35,6 @@ jobs:
         key: ${{ runner.os }}-playwright-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-playwright-
-
-    - name: Atualizar Cache do APT
-      run: sudo apt-get update
 
     - name: Instalar Dependências e Navegadores (Playwright)
       run: mvn exec:java -e -D"exec.mainClass=com.microsoft.playwright.CLI" -D"exec.args=install-deps"
@@ -65,7 +59,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Executar OWASP ZAP Baseline Scan
-        uses: zaproxy/action-baseline@v0.14.0
+        uses: zaproxy/action-baseline@v0.15.0
         with:
           target: 'https://flavianapina.com.br/'
           fail_action: false # Gera o relatório de vulnerabilidades, mas não quebra a esteira com avisos comuns do GitHub Pages
