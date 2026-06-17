@@ -18,16 +18,23 @@ Este repositório contém um framework de automação de testes de ponta a ponta
 * **GitHub Actions (CI/CD):** Esteira de integração contínua executando os testes de forma automática e "Headless" a cada novo *push*.
 
 ## 🎯 Cenários de Teste Implementados
+## 🎯 Diferenciais Técnicos e Estratégicos (Projetos em Destaque)
+Este projeto vai além de uma simples automação, demonstrando um ecossistema completo de qualidade e segurança:
 
-A suíte de testes atual é capaz de cobrir as principais funcionalidades do portfólio em tempo recorde:
-1. **Carregamento e Título:** Validação do acesso inicial.
-2. **Modo Claro/Escuro:** Teste de alteração de estado no CSS via clique (Dark/Light mode).
-3. **Preenchimento de Formulários:** Automação de digitação rápida em campos de texto no formulário de contato.
-4. **Download de Arquivos:** Interceptação assíncrona e validação de download de PDF (Currículo).
-5. **Responsividade Mobile:** Simulação de contexto de navegador móvel (dimensões de iPhone) e testes do menu *Hamburger*.
-6. **Validação de Links:** Verificação de atributos do DOM (redes sociais no rodapé).
-7. **Abertura de Modais:** Mapeamento avançado imune a mudanças de CSS usando `data-testid`.
-8. **Fluxo E2E de Depoimentos:** Preenchimento de formulário em Pop-up, cancelamento e asserção avançada de invisibilidade de elementos no DOM.
+### 1. Engenharia de Automação Moderna (Java & Playwright)
+*   **Framework Robusto:** Suíte de testes E2E com **Java 21 e Playwright**, utilizando o padrão **Page Object Model (POM)** para máxima manutenibilidade.
+*   **CI/CD & Nightly Builds:** Pipeline no **GitHub Actions** que executa a suíte completa a cada *push* e diariamente (builds noturnas), garantindo a saúde contínua da aplicação.
+*   **Relatórios Executivos:** Geração de relatórios via **ExtentReports** com evidências visuais (prints em Base64) e vídeos (`.webm`) de cada cenário executado.
+*   **Testes de UX e Mobile:** Validação de responsividade em viewports de dispositivos móveis, testes de componentes interativos (modais, painéis) e fluxos de usuário ponta a ponta.
+
+### 2. DevSecOps em Profundidade (Shift-Left Security)
+*   **Análise Dinâmica de Segurança (DAST):** Integração do **OWASP ZAP** na esteira de CI/CD para realizar varreduras de vulnerabilidade automaticamente após o deploy.
+*   **Testes de Injeção (XSS):** Cenário de teste específico que simula um ataque de *Cross-Site Scripting*, validando a sanitização de dados no back-end (API em Node.js) e a resiliência do front-end.
+*   **Auditoria de Cabeçalhos de Segurança:** Teste que verifica a presença de *headers* HTTP defensivos (ex: `X-Frame-Options`), mitigando riscos como *Clickjacking*.
+
+### 3. Qualidade Inclusiva e IA (A11y & Blue Team)
+*   **Auditoria de Acessibilidade (A11y):** Varredura autônoma com a biblioteca **Axe-Core** integrada aos testes, garantindo a conformidade com as diretrizes da WCAG.
+*   **IA na Cibersegurança (Projeto Blue Team):** Desenvolvimento de um sistema paralelo em **Python com Machine Learning (Scikit-learn)**, capaz de analisar logs, detectar anomalias e simular a neutralização de ataques de *Brute Force*, demonstrando uma visão estratégica e proativa de defesa.
 
 ## 📁 Estrutura do Projeto
 
