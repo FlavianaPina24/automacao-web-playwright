@@ -4,21 +4,25 @@ import com.microsoft.playwright.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PortfolioTest extends BaseTest {
+
+    private static final Logger logger = LoggerFactory.getLogger(PortfolioTest.class);
 
     // =================================================================================
     // CENÁRIO 1: Validar se o portfólio carrega corretamente e exibe o título esperado
     // =================================================================================
     @Test
     public void meuPrimeiroTesteComPlaywright() {
-        System.out.println("Navegando para o portfólio...");
+        logger.info("CENÁRIO 1: Navegando para o portfólio para validar o título.");
         portfolioPage.navegar();
         
         registrarEvidencia("Evidência - Tela Inicial do Portfólio", portfolioPage.tirarPrintTelaInteira("print-portfolio.png"));
         
         String tituloAtual = portfolioPage.getTitulo();
-        System.out.println("O título da página é: " + tituloAtual);
+        logger.info("Título da página encontrado: '{}'", tituloAtual);
         assertEquals("Flaviana Pina | Portfolio", tituloAtual, "O título da página está incorreto!");
     }
 
@@ -27,7 +31,7 @@ public class PortfolioTest extends BaseTest {
     // =================================================================================
     @Test
     public void testarModoClaro() {
-        System.out.println("Acessando o portfólio para testar o Modo Claro...");
+        logger.info("CENÁRIO 2: Testando a funcionalidade do Modo Claro.");
         portfolioPage.navegar();
         
         portfolioPage.alternarTema();
@@ -43,7 +47,7 @@ public class PortfolioTest extends BaseTest {
     // =================================================================================
     @Test
     public void testarPreenchimentoFormularioContato() {
-        System.out.println("Testando o formulário de contato...");
+        logger.info("CENÁRIO 3: Testando o preenchimento do formulário de contato.");
         portfolioPage.navegar();
 
         portfolioPage.preencherFormulario("Flaviana (Teste Automatizado)", "teste@qa.com", "Oi, Flaviana! O Playwright preencheu isso sozinho. :)");
@@ -56,7 +60,7 @@ public class PortfolioTest extends BaseTest {
     // =================================================================================
     @Test
     public void testarDownloadCurriculo() {
-        System.out.println("Testando o download do currículo...");
+        logger.info("CENÁRIO 4: Testando o download do currículo.");
         portfolioPage.navegar();
 
         registrarEvidencia("Evidência - Área de Download do Currículo", portfolioPage.tirarPrintSecaoAbout("print-download.png"));
@@ -66,7 +70,7 @@ public class PortfolioTest extends BaseTest {
         assertEquals("Curriculo_Flaviana_Pina.pdf", download.suggestedFilename(), "Nome do arquivo incorreto!");
 
         download.saveAs(java.nio.file.Paths.get("Curriculo_Baixado_Teste.pdf"));
-        System.out.println("Currículo validado e baixado com sucesso!");
+        logger.info("Download do arquivo '{}' concluído com sucesso.", download.suggestedFilename());
     }
 
     // =================================================================================
@@ -74,7 +78,7 @@ public class PortfolioTest extends BaseTest {
     // =================================================================================
     @Test
     public void testarMenuMobile() {
-        System.out.println("Testando visualização em um celular...");
+        logger.info("CENÁRIO 5: Testando a responsividade e o menu mobile.");
         
         // Cria um contexto de navegador específico simulando a tela de um celular (ex: iPhone)
         BrowserContext mobileContext = browser.newContext(new Browser.NewContextOptions()
@@ -99,7 +103,7 @@ public class PortfolioTest extends BaseTest {
     // =================================================================================
     @Test
     public void testarPainelAcessibilidade() {
-        System.out.println("Testando o Painel de Acessibilidade...");
+        logger.info("CENÁRIO 9: Testando o painel de acessibilidade (A11y).");
         portfolioPage.navegar();
 
         portfolioPage.abrirPainelAcessibilidade();
