@@ -189,4 +189,27 @@ public class PortfolioTest extends BaseTest {
         // Desativamos a "quebra" do JUnit para que a Acessibilidade seja uma Auditoria Não-Bloqueante
         // assertTrue(semViolacoes, "Foram encontradas " + qtdViolacoes + " violações de acessibilidade na página!");
     }
+
+    // =================================================================================
+    // CENÁRIO 11: Validar a jornada do usuário no botão de Serviço (Auditoria)
+    // =================================================================================
+    @DisplayName("CENÁRIO 11: Validar pré-preenchimento do formulário via botão de Serviço")
+    @Test
+    public void testarJornadaDoServicoDeAuditoria() {
+        portfolioPage.navegar();
+
+        // Clica no botão "Solicitar Auditoria"
+        portfolioPage.clicarSolicitarAuditoria();
+
+        // O Playwright aguarda a rolagem e a ação acontecerem
+        page.waitForTimeout(1000); // Pausa para a animação de rolagem ser visível no vídeo/print
+
+        // Valida se o campo de mensagem foi preenchido corretamente
+        String textoEsperado = "Olá, Flaviana! Tenho interesse em contratar o serviço de Auditoria de Qualidade & Segurança para o meu projeto.";
+        String textoAtual = portfolioPage.getTextoDaMensagem();
+        
+        assertEquals(textoEsperado, textoAtual, "O campo de mensagem não foi preenchido corretamente!");
+
+        registrarEvidencia("Evidência - Jornada de Serviço (Formulário Pré-preenchido)", portfolioPage.tirarPrintFormulario("print-jornada-servico.png"));
+    }
 }
