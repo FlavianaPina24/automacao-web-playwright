@@ -176,4 +176,14 @@ public class PortfolioPage {
     public byte[] tirarPrintSucesso(String nomeArquivo) {
         return page.locator(popupSucesso + " .popup-content").screenshot(new Locator.ScreenshotOptions().setPath(java.nio.file.Paths.get(nomeArquivo)));
     }
+
+    // Clica no botão "Solicitar Auditoria" na seção de serviços
+    public void clicarSolicitarAuditoria() {
+        page.locator("button:has-text('Solicitar Auditoria')").click();
+    }
+
+    // Obtém o texto atual do campo de mensagem no formulário de contato
+    public String getTextoDaMensagem() {
+        return page.locator("textarea[name='message']").inputValue();
+    }
 }
