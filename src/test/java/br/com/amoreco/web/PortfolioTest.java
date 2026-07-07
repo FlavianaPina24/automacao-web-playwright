@@ -24,7 +24,7 @@ public class PortfolioTest extends BaseTest {
         registrarEvidencia("Evidência - Tela Inicial do Portfólio", portfolioPage.tirarPrintTelaInteira("print-portfolio.png"));
         
         String tituloAtual = portfolioPage.getTitulo();
-        assertEquals("Flaviana Pina | Portfolio", tituloAtual, "O título da página está incorreto!");
+        assertEquals("Flaviana Pina | QA Engineer & DevSecOps | Portfólio", tituloAtual, "O título da página está incorreto!");
     }
 
     // =================================================================================
