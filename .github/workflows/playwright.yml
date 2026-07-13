@@ -37,7 +37,7 @@ jobs:
           ${{ runner.os }}-playwright-
 
     - name: Instalar Navegadores do Playwright
-      run: mvn playwright:install
+      run: mvn com.microsoft.playwright:playwright-maven-plugin:install
 
     - name: Executar os Testes Automatizados
       run: mvn test
