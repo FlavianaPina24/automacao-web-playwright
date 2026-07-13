@@ -184,6 +184,6 @@ public class PortfolioPage {
 
     // Obtém o texto atual do campo de mensagem no formulário de contato
     public String getTextoDaMensagem() {
-        return page.locator("textarea[name='message']").inputValue();
+        return page.locator(inputMessage).inputValue();
     }
 }

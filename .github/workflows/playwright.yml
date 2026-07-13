@@ -36,8 +36,8 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-playwright-
 
-    - name: Instalar Dependências e Navegadores (Playwright)
-      run: mvn exec:java -e -D"exec.mainClass=com.microsoft.playwright.CLI" -D"exec.args=install-deps"
+    - name: Instalar Navegadores do Playwright
+      run: mvn playwright:install
 
     - name: Executar os Testes Automatizados
       run: mvn test
