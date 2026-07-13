@@ -59,12 +59,9 @@
                 <version>1.44.0</version>
             </plugin>
         </plugins>
+        <pluginGroups>
+            <pluginGroup>com.microsoft.playwright</pluginGroup>
+        </pluginGroups>
     </build>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>central</id>
-            <url>https://repo.maven.apache.org/maven2</url>
-        </pluginRepository>
-    </pluginRepositories>
 </project>
