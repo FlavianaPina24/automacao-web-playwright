@@ -59,5 +59,10 @@
                 <version>1.44.0</version>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <pluginGroups>
+                <pluginGroup>com.microsoft.playwright</pluginGroup>
+            </pluginGroups>
+        </pluginManagement>
     </build>
 </project>
