@@ -39,9 +39,8 @@ jobs:
 
     - name: Instalar Navegadores do Playwright (se não houver cache)
       if: steps.playwright-cache.outputs.cache-hit != 'true'
-      # O parâmetro -U força a atualização de dependências, resolvendo problemas de cache no Maven.
-      # Usamos o nome completo do plugin para evitar erros de "prefixo não encontrado".
-      run: mvn com.microsoft.playwright:playwright-maven-plugin:install -U
+      # Solução definitiva: Usa o script de instalação nativo do Playwright, contornando o Maven.
+      run: npx playwright@1.44.0 install --with-deps
 
     - name: Executar os Testes Automatizados
       run: mvn test
