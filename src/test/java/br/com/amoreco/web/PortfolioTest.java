@@ -212,4 +212,21 @@ public class PortfolioTest extends BaseTest {
 
         registrarEvidencia("Evidência - Jornada de Serviço (Formulário Pré-preenchido)", portfolioPage.tirarPrintFormulario("print-jornada-servico.png"));
     }
+
+    // =================================================================================
+    // CENÁRIO 12: Validar a presença do Widget de Tradução (Design Equitativo)
+    // =================================================================================
+    @DisplayName("CENÁRIO 12: Validar presença do widget de tradução")
+    @Test
+    public void testarPresencaDoWidgetDeTraducao() {
+        portfolioPage.navegar();
+
+        // O Playwright espera o elemento aparecer, validando indiretamente que o script do Google carregou
+        Locator widgetTraducao = page.locator("#google_translate_element");
+        widgetTraducao.waitFor();
+
+        assertTrue(widgetTraducao.isVisible(), "O widget de tradução não está visível na página.");
+
+        registrarEvidencia("Evidência - Widget de Tradução (Equidade)", widgetTraducao.screenshot());
+    }
 }
