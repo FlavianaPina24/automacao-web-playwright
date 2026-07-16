@@ -40,7 +40,7 @@ jobs:
     - name: Instalar Navegadores do Playwright
       # Executa a instalação somente se o cache não for restaurado (cache-hit != 'true')
       if: steps.playwright-cache.outputs.cache-hit != 'true'
-      run: mvn com.microsoft.playwright:playwright-maven-plugin:1.44.0:install
+      run: mvn playwright:install
 
     - name: Executar os Testes Automatizados
       run: mvn test
