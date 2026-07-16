@@ -37,8 +37,13 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-playwright-
 
+    - name: Instalar Navegadores do Playwright (se não houver cache)
+      if: steps.playwright-cache.outputs.cache-hit != 'true'
+      # O parâmetro -U força a atualização de dependências, resolvendo problemas de cache no Maven.
+      # Usamos o nome completo do plugin para evitar erros de "prefixo não encontrado".
+      run: mvn com.microsoft.playwright:playwright-maven-plugin:install -U
+
     - name: Executar os Testes Automatizados
-      # O goal 'install' do Playwright será executado automaticamente antes do 'test'
       run: mvn test
 
     - name: Salvar Relatório Executivo HTML
