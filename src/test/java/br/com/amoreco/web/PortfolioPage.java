@@ -2,6 +2,7 @@ package br.com.amoreco.web;
 
 import com.microsoft.playwright.Download;
 import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.Page;
 
 public class PortfolioPage {
@@ -191,6 +192,6 @@ public class PortfolioPage {
     public void clicarNoLinkDoArtigoDeUx() {
         // Localizador robusto que encontra o card pelo título e clica no link "Ler Artigo" dentro dele
         page.locator(".skill-card:has-text('Projetando Experiências Multiplataforma')")
-            .getByRole(com.microsoft.playwright.options.AriaRole.LINK, new Page.GetByRoleOptions().setName("Ler Artigo")).click();
+            .getByRole(AriaRole.LINK, new Locator.GetByRoleOptions().setName("Ler Artigo")).click();
     }
 }
