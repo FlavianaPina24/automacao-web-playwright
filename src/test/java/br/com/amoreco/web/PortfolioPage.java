@@ -186,4 +186,11 @@ public class PortfolioPage {
     public String getTextoDaMensagem() {
         return page.locator(inputMessage).inputValue();
     }
+
+    // Clica no link "Ler Artigo" do card de UX Multiplataforma
+    public void clicarNoLinkDoArtigoDeUx() {
+        // Localizador robusto que encontra o card pelo título e clica no link "Ler Artigo" dentro dele
+        page.locator(".skill-card:has-text('Projetando Experiências Multiplataforma')")
+            .getByRole(com.microsoft.playwright.options.AriaRole.LINK, new Page.GetByRoleOptions().setName("Ler Artigo")).click();
+    }
 }

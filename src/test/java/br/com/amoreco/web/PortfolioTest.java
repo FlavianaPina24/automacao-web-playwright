@@ -191,25 +191,44 @@ public class PortfolioTest extends BaseTest {
     }
 
     // =================================================================================
-    // CENÁRIO 11: Validar a jornada do usuário no botão de Serviço (Auditoria) - ARQUIVADO
+    // CENÁRIO 11: Validar a jornada do usuário no botão de Serviço (Auditoria)
     // =================================================================================
-    // @DisplayName("CENÁRIO 11: Validar pré-preenchimento do formulário via botão de Serviço")
-    // @Test
-    // public void testarJornadaDoServicoDeAuditoria() {
-    //     portfolioPage.navegar();
+    @DisplayName("CENÁRIO 11: Validar pré-preenchimento do formulário via botão de Serviço")
+    @Test
+    public void testarJornadaDoServicoDeAuditoria() {
+        portfolioPage.navegar();
 
-    //     // Clica no botão "Solicitar Auditoria"
-    //     portfolioPage.clicarSolicitarAuditoria();
+        // Clica no botão "Solicitar Auditoria"
+        portfolioPage.clicarSolicitarAuditoria();
 
-    //     // O Playwright aguarda a rolagem e a ação acontecerem
-    //     page.waitForTimeout(1000); // Pausa para a animação de rolagem ser visível no vídeo/print
+        // O Playwright aguarda a rolagem e a ação acontecerem
+        page.waitForTimeout(1000); // Pausa para a animação de rolagem ser visível no vídeo/print
 
-    //     // Valida se o campo de mensagem foi preenchido corretamente
-    //     String textoEsperado = "Olá, Flaviana! Tenho interesse em contratar o serviço de Auditoria de Qualidade & Segurança para o meu projeto.";
-    //     String textoAtual = portfolioPage.getTextoDaMensagem();
+        // Valida se o campo de mensagem foi preenchido corretamente
+        String textoEsperado = "Olá, Flaviana! Tenho interesse em contratar o serviço de Auditoria de Qualidade & Segurança para o meu projeto.";
+        String textoAtual = portfolioPage.getTextoDaMensagem();
         
-    //     assertEquals(textoEsperado, textoAtual, "O campo de mensagem não foi preenchido corretamente!");
+        assertEquals(textoEsperado, textoAtual, "O campo de mensagem não foi preenchido corretamente!");
 
-    //     registrarEvidencia("Evidência - Jornada de Serviço (Formulário Pré-preenchido)", portfolioPage.tirarPrintFormulario("print-jornada-servico.png"));
-    // }
+        registrarEvidencia("Evidência - Jornada de Serviço (Formulário Pré-preenchido)", portfolioPage.tirarPrintFormulario("print-jornada-servico.png"));
+    }
+
+    // =================================================================================
+    // CENÁRIO 12: Validar navegação para o artigo de UX Multiplataforma
+    // =================================================================================
+    @DisplayName("CENÁRIO 12: Validar link e acesso ao artigo de UX Multiplataforma")
+    @Test
+    public void testarAcessoAoArtigoDeUx() {
+        portfolioPage.navegar();
+
+        // Clica no link "Ler Artigo" do card de UX. A página irá navegar.
+        portfolioPage.clicarNoLinkDoArtigoDeUx();
+        page.waitForLoadState(); // Espera a nova página carregar completamente
+
+        // Valida se a página atual (após a navegação) tem o título correto
+        assertEquals("Artigo: Projetando Experiências Multiplataforma | Flaviana Pina", page.title(), "O título da página do artigo está incorreto!");
+
+        // Tira um print da página do artigo para o relatório
+        registrarEvidencia("Evidência - Página do Artigo de UX", page.screenshot(new Page.ScreenshotOptions().setFullPage(true)));
+    }
 }
