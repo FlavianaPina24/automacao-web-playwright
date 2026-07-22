@@ -182,7 +182,7 @@ public class PortfolioPage {
     public void clicarSolicitarAuditoria() {
         // O localizador foi atualizado para refletir a mudança de texto no front-end.
         // O robô agora procura pelo botão "Vamos Conversar" dentro do card de serviço de auditoria.
-        page.locator(".service-card:has-text('Auditoria de Qualidade')").getByRole(AriaRole.BUTTON, new Locator.GetByRoleOptions().setName("Vamos Conversar")).click();
+        page.locator(".service-card:has-text('Auditoria de Qualidade')").getByRole(AriaRole.LINK, new Locator.GetByRoleOptions().setName("Vamos Conversar")).click();
     }
 
     // Obtém o texto atual do campo de mensagem no formulário de contato
