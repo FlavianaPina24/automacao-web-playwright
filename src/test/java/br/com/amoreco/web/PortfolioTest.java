@@ -9,6 +9,7 @@ import com.deque.html.axecore.playwright.AxeBuilder;
 import com.deque.html.axecore.results.AxeResults; // CORREÇÃO: Nome correto do pacote na versão mais nova
 import com.deque.html.axecore.results.Rule; // Importa a Regra do Axe
 import java.util.Arrays; // Import necessário para o Arrays.asList funcionar
+import org.junit.jupiter.api.Disabled;
 import java.util.List; // Importa a Lista nativa do Java
 
 public class PortfolioTest extends BaseTest {
@@ -194,6 +195,7 @@ public class PortfolioTest extends BaseTest {
     // CENÁRIO 11: Validar a jornada do usuário no botão de Serviço (Auditoria)
     // =================================================================================
     @DisplayName("CENÁRIO 11: Validar pré-preenchimento do formulário via botão de Serviço")
+    @Disabled("Cenário desativado temporariamente pois a seção de Serviços foi ocultada no site.")
     @Test
     public void testarJornadaDoServicoDeAuditoria() {
         portfolioPage.navegar();
