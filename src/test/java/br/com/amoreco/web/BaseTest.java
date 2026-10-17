@@ -48,17 +48,35 @@ public class BaseTest {
             extent.attachReporter(spark);
         }
 
-        // Ignora a falta de DLLs do Windows (como a zlib1.dll) para navegadores que não usamos
+        // Ignora a falta de DLLs do Windows (como a zlib1.dll) e configura host alternativo caso precise de download
         Map<String, String> env = new HashMap<>();
         env.put("PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS", "true");
+        env.put("PLAYWRIGHT_DOWNLOAD_HOST", "https://playwright.download.prss.microsoft.com/dbazure/download/playwright");
         
         if (playwright == null) {
             playwright = Playwright.create(new Playwright.CreateOptions().setEnv(env));
         }
         if (browser == null) {
-            browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
-                .setHeadless(true)
-                .setSlowMo(800)); // Adiciona 800ms de pausa entre cada ação para o vídeo ficar perfeito!
+            try {
+                // 1. Prioriza o Google Chrome já instalado no computador (não precisa baixar nada da internet)
+                browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
+                    .setChannel("chrome")
+                    .setHeadless(true)
+                    .setSlowMo(800));
+            } catch (Exception eChrome) {
+                try {
+                    // 2. Fallback: usa o Microsoft Edge (já instalado nativamente em qualquer Windows)
+                    browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
+                        .setChannel("msedge")
+                        .setHeadless(true)
+                        .setSlowMo(800));
+                } catch (Exception eEdge) {
+                    // 3. Fallback: Chromium padrão do Playwright
+                    browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
+                        .setHeadless(true)
+                        .setSlowMo(800));
+                }
+            }
         }
     }
 
