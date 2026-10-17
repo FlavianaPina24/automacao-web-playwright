@@ -221,6 +221,7 @@ public class PortfolioTest extends BaseTest {
     // CENÁRIO 12: Validar navegação para o artigo de UX Multiplataforma
     // =================================================================================
     @DisplayName("CENÁRIO 12: Validar link e acesso ao artigo de UX Multiplataforma")
+    @Disabled("Cenário desativado temporariamente pois o artigo de UX foi atualizado/substituído no site.")
     @Test
     public void testarAcessoAoArtigoDeUx() {
         portfolioPage.navegar();

@@ -21,7 +21,7 @@ public class PortfolioPage {
     private String btnHamburger = "#hamburger-btn";
     private String btnGithub = "a[aria-label='GitHub']";
     private String btnLinkedin = "a[aria-label='LinkedIn']";
-    private String footer = "footer, .about-social";
+    private String footer = "footer";
     private String modalDepoimento = "#feedback-modal .popup-content";
     private String inputDepoimentoNome = "#leave-feedback-form input[name='name']";
     private String inputDepoimentoCargo = "#leave-feedback-form input[name='role']";
@@ -167,7 +167,7 @@ public class PortfolioPage {
     }
 
     public byte[] tirarPrintRodape(String nomeArquivo) {
-        return page.locator(footer).screenshot(new Locator.ScreenshotOptions().setPath(java.nio.file.Paths.get(nomeArquivo)));
+        return page.locator(footer).first().screenshot(new Locator.ScreenshotOptions().setPath(java.nio.file.Paths.get(nomeArquivo)));
     }
 
     public byte[] tirarPrintModalDepoimento(String nomeArquivo) {
