@@ -3,22 +3,27 @@ package br.com.amoreco.web;
 import com.microsoft.playwright.*;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SecurityTest extends BaseTest {
 
     // =================================================================================
-    // CENÁRIO 11: DevSecOps - Tentativa de Injeção XSS (Cross-Site Scripting)
+    // CENÁRIO 13: DevSecOps - Tentativa de Injeção XSS (Cross-Site Scripting)
     // =================================================================================
+    @DisplayName("CENÁRIO 13: DevSecOps - Tentativa de Injeção XSS no Formulário")
     @Test
     public void testarInjecaoXSSNoFormulario() {
-        // 1. "Armadilha" do Playwright: Se a página abrir um pop-up de alerta (vírus), o XSS funcionou e o teste falha!
+        AtomicBoolean xssDisparado = new AtomicBoolean(false);
+
+        // 1. "Armadilha" do Playwright: Se a página abrir um pop-up de alerta (vírus), o XSS funcionou e registramos a falha
         page.onDialog(dialog -> {
             String mensagem = dialog.message();
             if (mensagem.contains("hackeado") || mensagem.contains("XSS")) {
-                relatorioTeste.fail("🚨 VULNERABILIDADE DETECTADA: O script malicioso foi executado no navegador!");
+                xssDisparado.set(true);
+                relatorioTeste.fail("🚨 VULNERABILIDADE DETECTADA: O script malicioso foi executado no navegador! Mensagem: " + mensagem);
                 dialog.accept();
-                fail("Falha Crítica de Segurança: Injeção XSS executada com sucesso!");
             } else {
                 // Alerta inofensivo do sistema (ex: Firewall do Formspree bloqueando o envio). Apenas ignoramos.
                 dialog.accept();
@@ -37,16 +42,17 @@ public class SecurityTest extends BaseTest {
         
         portfolioPage.publicarDepoimento();
 
-        // 4. Aguarda 3 segundos. Se a armadilha não foi disparada, o site está blindado!
-        // (Não verificamos o pop-up de Sucesso aqui, pois sabemos que o Firewall do backend pode recusar a injeção)
+        // 4. Aguarda 3 segundos para confirmar que nenhum script malicioso disparou alert()
         page.waitForTimeout(3000);
 
+        assertFalse(xssDisparado.get(), "Falha Crítica de Segurança: Injeção XSS executada com sucesso!");
         relatorioTeste.pass("🛡️ Segurança (XSS): O sistema sanitizou as entradas e bloqueou a execução de scripts maliciosos.");
     }
 
     // =================================================================================
-    // CENÁRIO 12: DevSecOps - Validação de Cabeçalhos de Segurança HTTP
+    // CENÁRIO 14: DevSecOps - Validação de Cabeçalhos de Segurança HTTP
     // =================================================================================
+    @DisplayName("CENÁRIO 14: DevSecOps - Validação de Cabeçalhos de Segurança HTTP")
     @Test
     public void testarCabecalhosDeSeguranca() {
         // Acessamos o site e capturamos a resposta do servidor em tempo real

@@ -32,30 +32,49 @@ public class BaseTest {
 
     @BeforeAll
     public static void iniciarNavegador() {
+        // Garante que os diretórios necessários existam
+        new java.io.File("target").mkdirs();
+        new java.io.File("videos").mkdirs();
+
         // Força a máquina a usar o fuso horário de Brasília (mesmo rodando nos EUA)
         TimeZone.setDefault(TimeZone.getTimeZone("America/Sao_Paulo"));
 
-        String dataHora = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(new Date());
-        ExtentSparkReporter spark = new ExtentSparkReporter("target/Relatorio-Elegante_" + dataHora + ".html");
-        spark.config().setDocumentTitle("Relatório de Automação");
-        spark.config().setReportName("Portfólio - Flaviana Pina");
-        extent = new ExtentReports();
-        extent.attachReporter(spark);
+        if (extent == null) {
+            String dataHora = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(new Date());
+            ExtentSparkReporter spark = new ExtentSparkReporter("target/Relatorio-Elegante_" + dataHora + ".html");
+            spark.config().setDocumentTitle("Relatório de Automação");
+            spark.config().setReportName("Portfólio - Flaviana Pina");
+            extent = new ExtentReports();
+            extent.attachReporter(spark);
+        }
 
         // Ignora a falta de DLLs do Windows (como a zlib1.dll) para navegadores que não usamos
         Map<String, String> env = new HashMap<>();
         env.put("PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS", "true");
         
-        playwright = Playwright.create(new Playwright.CreateOptions().setEnv(env));
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
-            .setHeadless(true)
-            .setSlowMo(800)); // Adiciona 800ms de pausa entre cada ação para o vídeo ficar perfeito!
+        if (playwright == null) {
+            playwright = Playwright.create(new Playwright.CreateOptions().setEnv(env));
+        }
+        if (browser == null) {
+            browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
+                .setHeadless(true)
+                .setSlowMo(800)); // Adiciona 800ms de pausa entre cada ação para o vídeo ficar perfeito!
+        }
     }
 
     @AfterAll
     public static void fecharNavegador() {
-        playwright.close();
-        extent.flush(); 
+        if (browser != null) {
+            browser.close();
+            browser = null;
+        }
+        if (playwright != null) {
+            playwright.close();
+            playwright = null;
+        }
+        if (extent != null) {
+            extent.flush(); 
+        }
     }
 
     @BeforeEach
@@ -86,20 +105,28 @@ public class BaseTest {
 
     @AfterEach
     public void fecharAba(TestInfo testInfo) {
-        relatorioTeste.pass("Cenário executado com sucesso!");
-        if (!evidenciaHtml.isEmpty()) {
+        if (relatorioTeste != null && relatorioTeste.getStatus() != com.aventstack.extentreports.Status.FAIL) {
+            relatorioTeste.pass("Cenário finalizado com sucesso!");
+        }
+        if (!evidenciaHtml.isEmpty() && relatorioTeste != null) {
             relatorioTeste.info(evidenciaHtml); 
         }
         
-        context.close(); // O Playwright finaliza e salva o vídeo neste exato momento!
+        if (context != null) {
+            context.close(); // O Playwright finaliza e salva o vídeo neste exato momento!
+        }
 
         // Renomear o vídeo de nome aleatório para um formato profissional: Cenário + Data + Hora
-        if (page.video() != null) {
-            String nomeCenario = testInfo.getDisplayName().replace("()", "").replaceAll("[^a-zA-Z0-9]", "_");
-            String dataHora = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(new Date());
-            
-            page.video().saveAs(java.nio.file.Paths.get("videos/" + nomeCenario + "_" + dataHora + ".webm"));
-            page.video().delete(); // Apaga o vídeo original com nome aleatório
+        if (page != null && page.video() != null) {
+            try {
+                String nomeCenario = testInfo.getDisplayName().replace("()", "").replaceAll("[^a-zA-Z0-9]", "_");
+                String dataHora = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(new Date());
+                
+                page.video().saveAs(java.nio.file.Paths.get("videos/" + nomeCenario + "_" + dataHora + ".webm"));
+                page.video().delete(); // Apaga o vídeo original com nome aleatório
+            } catch (Exception e) {
+                // Silencia caso o arquivo temporário já tenha sido movido
+            }
         }
     }
 }
