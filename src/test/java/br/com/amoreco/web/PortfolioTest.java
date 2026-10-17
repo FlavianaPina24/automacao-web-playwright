@@ -225,14 +225,24 @@ public class PortfolioTest extends BaseTest {
     public void testarAcessoAoArtigoDeUx() {
         portfolioPage.navegar();
 
-        // Clica no link "Ler Artigo" do card de UX. A página irá navegar.
-        portfolioPage.clicarNoLinkDoArtigoDeUx();
-        page.waitForLoadState(); // Espera a nova página carregar completamente
+        // Clica no link "Ler Artigo" do card de UX suportando tanto navegação na mesma aba quanto abertura em nova aba (target="_blank")
+        Page paginaArtigo = page;
+        try {
+            Page popup = page.waitForPopup(new Page.WaitForPopupOptions().setTimeout(3000), () -> {
+                portfolioPage.clicarNoLinkDoArtigoDeUx();
+            });
+            if (popup != null) {
+                paginaArtigo = popup;
+            }
+        } catch (Exception e) {
+            // Se não abriu nova aba, navegou na mesma aba
+        }
+        paginaArtigo.waitForLoadState();
 
-        // Valida se a página atual (após a navegação) tem o título correto
-        assertEquals("Artigo: Projetando Experiências Multiplataforma | Flaviana Pina", page.title(), "O título da página do artigo está incorreto!");
+        // Valida se a página do artigo tem o título correto
+        assertEquals("Artigo: Projetando Experiências Multiplataforma | Flaviana Pina", paginaArtigo.title(), "O título da página do artigo está incorreto!");
 
         // Tira um print da página do artigo para o relatório
-        registrarEvidencia("Evidência - Página do Artigo de UX", page.screenshot(new Page.ScreenshotOptions().setFullPage(true)));
+        registrarEvidencia("Evidência - Página do Artigo de UX", paginaArtigo.screenshot(new Page.ScreenshotOptions().setFullPage(true)));
     }
 }

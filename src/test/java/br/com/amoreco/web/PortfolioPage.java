@@ -84,11 +84,11 @@ public class PortfolioPage {
     }
 
     public String getLinkGithub() {
-        return page.locator(btnGithub).getAttribute("href");
+        return page.locator(btnGithub).first().getAttribute("href");
     }
 
     public String getLinkLinkedin() {
-        return page.locator(btnLinkedin).getAttribute("href");
+        return page.locator(btnLinkedin).first().getAttribute("href");
     }
 
     public void abrirMenuMobile() {
@@ -197,8 +197,11 @@ public class PortfolioPage {
 
     // Clica no link "Ler Artigo" do card de UX Multiplataforma
     public void clicarNoLinkDoArtigoDeUx() {
-        // Localizador robusto que encontra o card pelo título e clica no link "Ler Artigo" dentro dele
-        page.locator(".skill-card:has-text('Projetando Experiências Multiplataforma')")
-            .getByRole(AriaRole.LINK, new Locator.GetByRoleOptions().setName("Ler Artigo")).click();
+        // Localizador robusto que encontra o card pelo título e garante que esteja visível
+        Locator cardArtigo = page.locator(".skill-card, .article-card, article, div")
+            .filter(new Locator.FilterOptions().setHasText("Projetando Experiências Multiplataforma"))
+            .last();
+        cardArtigo.scrollIntoViewIfNeeded();
+        cardArtigo.getByRole(AriaRole.LINK, new Locator.GetByRoleOptions().setName("Ler Artigo")).click();
     }
 }

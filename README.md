@@ -44,9 +44,9 @@ Este projeto vai além de uma simples automação, demonstrando um ecossistema c
  ┣ 📂 src/test/java/.../web
  ┃ ┣ 📜 BaseTest.java        # Configurações do navegador, ciclo de vida e relatórios
  ┃ ┣ 📜 PortfolioPage.java   # Page Object Model (Mapeamento de elementos e ações)
- ┃ ┗ 📜 PortfolioTest.java   # Casos de teste e asserções (Roteiro limpo)
- ┣ 📜 .gitignore             # Arquivos não rastreados pelo versionamento
- ┗ 📜 pom.xml                # Dependências estruturais
+ ┃ ┣ 📜 PortfolioTest.java   # Casos de teste funcionais e E2E (Roteiro limpo)
+ ┃ ┗ 📜 SecurityTest.java    # Testes de DevSecOps (XSS e Cabeçalhos HTTP)
+ ┗ 📜 pom.xml                # Dependências estruturais e plugins
 ```
 
 ## ⚙️ Como Executar Localmente
