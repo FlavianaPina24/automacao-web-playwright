@@ -19,9 +19,9 @@ public class PortfolioPage {
     private String sectionAbout = "#about";
     private String btnDownload = "text=Baixar Currículo";
     private String btnHamburger = "#hamburger-btn";
-    private String btnGithub = "footer a[aria-label='GitHub']";
-    private String btnLinkedin = "footer a[aria-label='LinkedIn']";
-    private String footer = "footer";
+    private String btnGithub = "a[aria-label='GitHub']";
+    private String btnLinkedin = "a[aria-label='LinkedIn']";
+    private String footer = "footer, .about-social";
     private String modalDepoimento = "#feedback-modal .popup-content";
     private String inputDepoimentoNome = "#leave-feedback-form input[name='name']";
     private String inputDepoimentoCargo = "#leave-feedback-form input[name='role']";
